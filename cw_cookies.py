@@ -5,8 +5,7 @@ import os
 
 def upd_cookies():
     config = configparser.ConfigParser()
-    config.read(os.path.dirname(os.path.abspath(__file__))
-          + "/config.ini", encoding="utf-8")
+    config.read("config.ini", encoding="utf-8")
     config = config["CATWAR"]
     s = requests.session()
     user_agent_val = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) ' \
@@ -28,8 +27,7 @@ def get_cookies():
                      'Chrome/90.0.4430.93 Safari/537.36 '
     s.headers.update({'User-Agent': user_agent_val})
     try:
-        f = open(os.path.dirname(os.path.abspath(__file__))
-          + '/cookies.txt', 'rb')
+        f = open('cookies.txt', 'rb')
     except IOError or FileNotFoundError:
         upd_cookies()
         get_cookies()
