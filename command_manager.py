@@ -47,7 +47,6 @@ class Commander:
     def _load_commands(self):
         self.commands = []
 
-        cmd_submodules = dict()
         # Ищем все подмодули и все классы в них без импорта самих подмодулей.
         for root, dirs, files in os.walk("commands", topdown=False):
             abs_search_path = os.path.join(os.path.dirname(__file__), root, '*.py')
@@ -66,7 +65,7 @@ class Commander:
         user_id = message['from_id']
         post = self.bot.vk.get_post(user_id)
 
-        if text == 'exit':
+        if text == 'exit' or text == 'выйти':
             self.exit(user_id, post)
 
         if not post:
@@ -86,6 +85,8 @@ class Commander:
                 if text in command.keys and post in command.access.value:
                     return command.process(message)
 
+        self.menu(user_id)
+
     def event_handler(self, event):
         payload = event['payload']
         user_id = event['user_id']
@@ -103,7 +104,7 @@ class Commander:
     def menu(self, user_id: int):
         post = self.bot.vk.get_post(user_id)
         kb = VkKeyboard(one_time=True)
-        if post in Access.ADMIN:
+        if post in Access.ADMIN.value:
             kb.add_callback_button(label='Добавить деятельность', color=VkKeyboardColor.PRIMARY,
                                    payload=['Добавить деятельность'])
             kb.add_callback_button(label='Удалить деятельность', color=VkKeyboardColor.PRIMARY,
@@ -111,6 +112,7 @@ class Commander:
             kb.add_line()
             kb.add_callback_button(label='Оставить в группе', color=VkKeyboardColor.PRIMARY,
                                    payload=['оставить'])
+            kb.add_line()
         kb.add_callback_button(label='Добавить напоминание', color=VkKeyboardColor.SECONDARY,
                                payload=['Добавить напоминание'])
         kb.add_callback_button(label='Мои напоминания', color=VkKeyboardColor.SECONDARY,
@@ -123,16 +125,16 @@ class Commander:
                                keyboard=kb)
         self.bot.db.add_msg_to_del(user_id, msg)
 
-    def exit(self, user_id: int):
+    def exit(self, user_id: int, post: str):
         """
         Выход из текущей команды
         :param user_id: id пользователя
+        :param post: должность
         """
-        if self.bot.vk.get_post(user_id):
+        if post:
             current_command = self.bot.db.get_command(user_id)
             self.bot.db.add_command(user_id, "")
             self.bot.db.del_command(user_id, current_command)
-            self.menu(user_id)
         else:
             self.bot.db.del_command(user_id, 'Intro')
 

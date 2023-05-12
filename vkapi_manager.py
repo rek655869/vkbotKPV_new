@@ -97,7 +97,7 @@ class VkApiManager:
                         self.admin = vk_api.VkApi(token=token).get_api()
                         self.logger.warning('Получен новый токен')
                         self.send(admin_id, 'Токен получен')
-                        exit()
+                        exit(1)
 
     def get_post(self, user_id: int) -> str or None:
         managers = self.admin.groups.getMembers(group_id=self.group_id, filter='managers')['items']
