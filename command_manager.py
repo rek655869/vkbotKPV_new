@@ -5,7 +5,6 @@ import glob
 from importlib import import_module
 
 import commands.admin.applicant
-import commands.admin.set_action
 from logger import Logger
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
 
@@ -104,7 +103,7 @@ class Commander:
     def menu(self, user_id: int):
         post = self.bot.vk.get_post(user_id)
         kb = VkKeyboard(one_time=True)
-        if post == commands.admin.set_action.SetAction.access:
+        if post in Access.ADMIN:
             kb.add_callback_button(label='Добавить деятельность', color=VkKeyboardColor.PRIMARY,
                                    payload=['Добавить деятельность'])
             kb.add_callback_button(label='Удалить деятельность', color=VkKeyboardColor.PRIMARY,
