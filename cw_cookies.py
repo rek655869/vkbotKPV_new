@@ -28,7 +28,7 @@ def get_cookies():
     s.headers.update({'User-Agent': user_agent_val})
     try:
         f = open('cookies.txt', 'rb')
-    except IOError:
+    except IOError or FileNotFoundError:
         upd_cookies()
         get_cookies()
     else:
