@@ -66,7 +66,7 @@ class Commander:
         post = self.bot.vk.get_post(user_id)
 
         if text == 'exit' or text == 'выйти':
-            self.exit(user_id, post)
+            return self.exit(user_id)
 
         if not post:
             for command in self.commands:
@@ -125,16 +125,16 @@ class Commander:
                                keyboard=kb)
         self.bot.db.add_msg_to_del(user_id, msg)
 
-    def exit(self, user_id: int, post: str):
+    def exit(self, user_id: int):
         """
         Выход из текущей команды
         :param user_id: id пользователя
-        :param post: должность
         """
-        if post:
+        if self.bot.vk.get_post(user_id):
             current_command = self.bot.db.get_command(user_id)
             self.bot.db.add_command(user_id, "")
             self.bot.db.del_command(user_id, current_command)
+            self.menu(user_id)
         else:
             self.bot.db.del_command(user_id, 'Intro')
 
