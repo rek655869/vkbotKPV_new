@@ -51,7 +51,7 @@ class Intro(Command):
             return 1
 
         html = self.bot.cw.get(f'https://catwar.su/cat{cw_id}').text
-        print(html)
+        self.logger.warning(html)
         soup = BeautifulSoup(html, 'html.parser')
         profile = soup.find(attrs={"data-cat": cw_id})
         try:
