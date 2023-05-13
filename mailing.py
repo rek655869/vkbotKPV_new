@@ -36,7 +36,7 @@ class Deliveryman:
         for user_id, action in actions_after_10:
             self.bot.vk.send(user_id, f"Через 10 минут будет {action}!")
             time.sleep(0.05)
-
+        time.sleep(1)
 
 
     def _get_actions(self, current_time, time):
