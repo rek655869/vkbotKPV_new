@@ -135,6 +135,7 @@ class Intro(Command):
             for editor in editors:
                 if editor != last_editor:
                     self._send_form(editor, profile, user_id, forward_msg)
+                    self.logger.info("сенд форм")
 
 
     def _send_form(self, editor_id: int, profile, user_id: int, forward_msg: int):
