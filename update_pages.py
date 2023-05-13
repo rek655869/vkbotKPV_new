@@ -17,7 +17,7 @@ class Updater:
     def __init__(self, bot):
         self.bot = bot
         self.logger = Logger.get(__name__)
-        threading.Thread(target=self._start, name='updater', daemon=True).start()
+        threading.Thread(target=self._start, name='updater', daemon=False).start()
 
         self.pages_info = {
             'верх': {
