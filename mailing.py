@@ -17,7 +17,7 @@ class Deliveryman:
         schedule.every().minute.at(":00").do(self.check_reminders)
         while True:
             schedule.run_pending()
-            time.sleep(.1)
+            time.sleep(60)
 
 
     def check_reminders(self):
@@ -36,7 +36,6 @@ class Deliveryman:
         for user_id, action in actions_after_10:
             self.bot.vk.send(user_id, f"Через 10 минут будет {action}!")
             time.sleep(0.05)
-        time.sleep(10)
 
 
     def _get_actions(self, current_time, time):
