@@ -168,7 +168,7 @@ class VkApiManager:
         managers = self.admin.groups.getMembers(group_id=self.group_id, filter='managers')['items']
         editors = []
         for user in managers:
-            if user['role'] == 'editor' or user['role'] == 'creator':
+            if user['role'] == 'editor':
                 editors.append(user['id'])
         if not editors:
             for user in managers:
