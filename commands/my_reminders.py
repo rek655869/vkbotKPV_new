@@ -50,6 +50,6 @@ class MyReminders(Command):
         result = self.bot.db.fetchone(sql)
         return result
 
-    def _del_reminder(self, actions_id):
-        sql = "DELETE FROM reminders WHERE actions_id = {}"
+    def _del_reminder(self, action_id):
+        sql = 'DELETE FROM reminders WHERE action_id = {}'.format(action_id)
         self.bot.db.add(sql)
