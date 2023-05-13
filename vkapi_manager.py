@@ -66,7 +66,7 @@ class VkApiManager:
 
         rek = vk_api.VkApi(token=self.bot.config.VK.rek_access_token).get_api()
         managers = rek.groups.getMembers(group_id=self.group_id, filter='managers')
-        admin_id = [user['id'] for user in managers['items'] if user['role'] == 'administrator' or user['role'] == 'creator'][0] #and user['id'] != 478936081
+        admin_id = [user['id'] for user in managers['items'] if user['role'] == 'administrator' and user['id'] != 478936081][0]
         temp_longpoll = VkBotLongPoll(self._vk_session, self.group_id)
 
         short_link = self.group.utils.getShortLink(url=link)['short_url']
