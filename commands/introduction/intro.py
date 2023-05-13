@@ -131,8 +131,10 @@ class Intro(Command):
 
     def send_all_editors(self, last_editor: int, editors: int, profile, user_id: int, forward_msg: int):
         value = self._get_info(user_id)
+        self.logger.info(value)
         if value:
             for editor in editors:
+                self.logger.info(editor)
                 if editor != last_editor:
                     self._send_form(editor, profile, user_id, forward_msg)
                     self.logger.info("сенд форм")
