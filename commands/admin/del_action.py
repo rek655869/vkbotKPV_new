@@ -34,7 +34,7 @@ class DelAction(Command):
                 actions_list.pop(0)
 
         msg = self.bot.vk.send(user_id, text)
-        msg = self.bot.vk.send(user_id, "Введите только название удаляемой деятельности",
+        msg = self.bot.vk.send(user_id, "Введите только название удаляемой деятельности (например, охота)",
                                keyboard=self.exit())
         self.bot.db.add_msg_to_del(user_id, msg)
         self.bot.db.upd_step(user_id, self.__class__.__name__, "name")
