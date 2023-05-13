@@ -16,7 +16,11 @@ class MyReminders(Command):
         text = "Установленные напоминания:\n"
         action_dict = {}
         for action_id in user_actions:
-            name, time = self._get_actions(action_id)
+            try:
+                name, time = self._get_actions(action_id)
+            except TypeError:
+                self._del_reminder(action_id)
+                continue
             if name in action_dict.keys():
                 temp = action_dict.get(name)
                 if not isinstance(temp, list):
@@ -45,3 +49,7 @@ class MyReminders(Command):
         sql = "SELECT name, time FROM actions WHERE id = {}".format(action_id)
         result = self.bot.db.fetchone(sql)
         return result
+
+    def _del_reminder(self, actions_id):
+        sql = "DELETE FROM reminders WHERE actions_id = {}"
+        self.bot.db.add(sql)
