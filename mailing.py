@@ -17,7 +17,7 @@ class Deliveryman:
         schedule.every().minute.at(":00").do(self.check_reminders)
         while True:
             schedule.run_pending()
-            time.sleep(1)
+            time.sleep(10)
 
 
     def check_reminders(self):
