@@ -167,19 +167,20 @@ class VkApiManager:
     def get_editors(self) -> tuple:
         managers = self.admin.groups.getMembers(group_id=self.group_id, filter='managers')['items']
         editors = []
+        times_seen = {}
         for user in managers:
             if user['role'] == 'editor':
                 editors.append(user['id'])
-        if not editors:
+                last_seen = self.admin.users.get(user_ids=user, fields='last_seen')[0]['last_seen']['time']
+                if last_seen:
+                    times_seen.update({last_seen: user})
+        if not times_seen:
             for user in managers:
-                if user['role'] == 'administrator' or user['role'] == 'creator':
+                if user['role'] == 'administrator':
                     editors.append(user['id'])
-
-        times_seen = {}
-        for user in editors:
-            last_seen = self.admin.users.get(user_ids=user, fields='last_seen')[0]['last_seen']['time']
-            if last_seen:
-                times_seen.update({last_seen: user})
+                    last_seen = self.admin.users.get(user_ids=user, fields='last_seen')[0]['last_seen']['time']
+                    if last_seen:
+                        times_seen.update({last_seen: user})
         return times_seen[max(times_seen)], editors
 
 
