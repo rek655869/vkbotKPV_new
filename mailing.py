@@ -22,13 +22,10 @@ class Deliveryman:
 
     def check_reminders(self):
         current_time = datetime.now()
-        self.logger.info(current_time)
         after_5 = current_time + timedelta(minutes=5)
         after_10 = current_time + timedelta(minutes=10)
         actions_after_5 = self._get_actions(after_5.strftime("%H:%M"), 5)
         actions_after_10 = self._get_actions(after_10.strftime("%H:%M"), 10)
-        self.logger.info(actions_after_5)
-        self.logger.info(actions_after_10)
 
         for user_id, action in actions_after_5:
             self.bot.vk.send(user_id, f"Через 5 минут будет {action}!")
