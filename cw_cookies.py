@@ -1,7 +1,7 @@
 import requests
 import configparser
 import pickle
-import os
+
 
 def upd_cookies():
     config = configparser.ConfigParser()
@@ -19,6 +19,7 @@ def upd_cookies():
     s.post('https://catwar.su/ajax/login', data)
     with open('cookies.txt', 'wb') as f:
         pickle.dump(s.cookies, f)
+    exit(1)
 
 
 def get_cookies():
