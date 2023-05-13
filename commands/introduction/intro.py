@@ -19,7 +19,7 @@ class Intro(Command):
         elif step == "kitten_name":
             self.get_kitten_name(user_id, message['text'])
             self.checking(user_id)
-        elif step == "checking" and "готово" in message['text'].lower():
+        elif step == "checking" and "далее" in message['text'].lower():
             self.ask_for_screen(user_id)
         elif step == "send_form":
             forward_msg = self.end(user_id, message)
@@ -80,7 +80,7 @@ class Intro(Command):
     def checking(self, user_id: int):
         profile = self._get_info(user_id)
         kb = VkKeyboard(one_time=True)
-        kb.add_callback_button(label='Далее', color=VkKeyboardColor.POSITIVE, payload=["Готово"])
+        kb.add_callback_button(label='Далее', color=VkKeyboardColor.POSITIVE, payload=["Далее"])
         kb.add_callback_button(label='Отмена', color=VkKeyboardColor.NEGATIVE, payload=['exit'])
         kb = kb.get_keyboard()
         text = f"Проверьте введённые данные:\nID: {profile[2]}\nИмя: {profile[3]}\nДолжность: {profile[4]}"
@@ -131,13 +131,10 @@ class Intro(Command):
 
     def send_all_editors(self, last_editor: int, editors: int, profile, user_id: int, forward_msg: int):
         value = self._get_info(user_id)
-        self.logger.info(value)
         if value:
             for editor in editors:
-                self.logger.info(editor)
                 if editor != last_editor:
                     self._send_form(editor, profile, user_id, forward_msg)
-                    self.logger.info("сенд форм")
 
 
     def _send_form(self, editor_id: int, profile, user_id: int, forward_msg: int):
