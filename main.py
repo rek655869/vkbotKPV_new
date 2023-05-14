@@ -21,6 +21,7 @@ class Bot:
         self.event_manager = EventManager(self)
         self.deliveryman = Deliveryman(self)
         self.updater = Updater(self)
+        self.vk.get_editors()
 
 
 

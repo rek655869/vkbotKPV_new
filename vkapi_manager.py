@@ -171,8 +171,9 @@ class VkApiManager:
         for user in managers:
             if user['role'] == 'editor':
                 editors.append(user['id'])
-                last_seen = self.admin.users.get(user_ids=user, fields='last_seen')[0]['last_seen']['time']
+                last_seen = self.admin.users.get(user_ids=user, fields='last_seen')
                 if last_seen:
+                    last_seen = last_seen[0]['last_seen']['time']
                     times_seen.update({last_seen: user})
         if not times_seen:
             for user in managers:
