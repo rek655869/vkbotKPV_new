@@ -97,7 +97,7 @@ class Updater:
         schedule.every().day.at("03:00").do(self.check_to_del)
         while True:
             schedule.run_pending()
-            time.sleep(1)
+            time.sleep(600)
 
     def check_to_del(self):
         self.logger.info("Начата проверка пользователей...")
@@ -243,7 +243,7 @@ class Updater:
     def to_wait_user(self, user_id):
         timestamp = datetime.now().timestamp()
         self._add_to_wait(user_id, timestamp)
-        self.bot.send(user_id, "Вы покинули клан и будете исключены из группы через 3 дня. Если вы считаете, что это "
+        self.bot.vk.send(user_id, "Вы покинули клан и будете исключены из группы через 3 дня. Если вы считаете, что это "
                                "ошибка, либо хотите остаться в группе, свяжитесь с представителями верха")
 
     def del_user(self, user_id):
