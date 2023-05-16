@@ -22,6 +22,6 @@ class Bot:
         self.deliveryman = Deliveryman(self)
         self.updater = Updater(self)
 
-
+        self.vk.get_editors()
 if __name__ == '__main__':
     Bot()
