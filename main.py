@@ -22,6 +22,16 @@ class Bot:
         self.deliveryman = Deliveryman(self)
         self.updater = Updater(self)
 
-        self.vk.get_editors()
+        managers = self.vk.admin.groups.getMembers(group_id=self.vk.group_id, filter='managers')['items']
+        editors = []
+        times_seen = {}
+        for user in managers:
+            if user['role'] == 'editor':
+                editors.append(user['id'])
+                last_seen = self.vk.admin.users.get(user_ids=user, fields='last_seen')
+                self.logger.info(last_seen)
+                if last_seen:
+                    last_seen = last_seen[0]['last_seen']['time']
+                    times_seen.update({last_seen: user})
 if __name__ == '__main__':
     Bot()
