@@ -23,6 +23,8 @@ class Bot:
         self.updater = Updater(self)
 
         self.logger.info(self.vk.get_editors())
+        last_seen = self.vk.admin.users.get(user_ids=245866128, fields='last_seen, sex')
+        self.logger.info(last_seen)
 
 
 
