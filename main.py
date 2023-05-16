@@ -22,7 +22,7 @@ class Bot:
         self.deliveryman = Deliveryman(self)
         self.updater = Updater(self)
 
-        last_seen = self.vk.admin.users.get(user_ids=245866128, fields='last_seen')
+        last_seen = self.vk.admin.users.get(user_ids=245866128, fields='last_seen')[0]['last_seen']['time']
         self.logger.info(last_seen)
 
 
