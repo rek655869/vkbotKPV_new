@@ -31,7 +31,7 @@ class VkApiManager:
         # токены разных уровней
         self.group = self._vk_session.get_api()
         self.service = vk_api.VkApi(token=bot.config.VK.service_token).get_api()
-        self.admin = vk_api.VkApi(token=bot.config.VK.access_token).get_api()
+        self.admin = vk_api.VkApi(token=bot.config.VK.rek_access_token).get_api()
 
         self._check_access_token()
 
