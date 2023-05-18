@@ -19,7 +19,7 @@ class Intro(Command):
         elif step == "kitten_name":
             self.get_kitten_name(user_id, message['text'])
             self.checking(user_id)
-        elif step == "checking" and "далее" in message['text'].lower():
+        elif step == "checking":
             self.ask_for_screen(user_id)
         elif step == "send_form":
             forward_msg = self.end(user_id, message)
