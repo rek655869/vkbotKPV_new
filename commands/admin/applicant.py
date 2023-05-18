@@ -9,6 +9,7 @@ def accept(bot, payload, editor_id, event_id):
     bot.vk.send(user_id, 'Заявка успешно принята! Не забудь ознакомиться с правилами:\n'
                          '>> https://vk.com/page-165101106_55801147 <<\n\nНапиши любое сообщение, '
                          'чтобы перейти к меню бота, или "помощь", чтобы узнать больше')
+    del_del_send_msg(bot, editor_id)
     del_messages(bot, user_id)
 
 
@@ -43,4 +44,9 @@ def add_info(bot, user_id: int):
 
 def del_info(bot, user_id: int):
     sql = 'DELETE FROM Intro WHERE vk_id = {}'.format(user_id)
+    bot.db.add(sql)
+
+
+def del_del_send_msg(bot, user_id: int):
+    sql = 'DELETE FROM msg_to_del WHERE vk_id = {}'.format(user_id)
     bot.db.add(sql)
