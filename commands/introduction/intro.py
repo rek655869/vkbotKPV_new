@@ -39,7 +39,6 @@ class Intro(Command):
                                keyboard=VkKeyboard.get_empty_keyboard())
         self.bot.db.add_msg_to_del(user_id, msg)
         self.bot.db.upd_step(user_id, self.__class__.__name__, "cw_id")
-        self.bot.db.add_command(user_id, self.__class__.__name__)
 
 
     def get_id(self, user_id: int, text: str):
