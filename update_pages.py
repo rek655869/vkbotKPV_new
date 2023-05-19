@@ -112,6 +112,9 @@ class Updater:
     def check_users(self):
         users_with_perm = self._get_perm()
         for user_id, cw_id, _ in self.bot.db.get_users():
+            if not self.bot.vk.get_post(user_id):
+                self.del_user(user_id)
+                continue
             html = self.bot.cw.get(f'https://catwar.su/cat{cw_id}').text
             soup = BeautifulSoup(html, 'html.parser')
             profile = soup.find(attrs={"data-cat": cw_id})
@@ -242,7 +245,7 @@ class Updater:
 
     def to_wait_user(self, user_id):
         timestamp = datetime.now().timestamp()
-        for vk_id, _ in self._get_wait_users:
+        for vk_id, _ in self._get_wait_users():
             if user_id != vk_id:
                 self._add_to_wait(user_id, timestamp)
                 self.bot.vk.send(user_id, "Вы покинули клан и будете исключены из группы через 3 дня. Если вы считаете, что это "
