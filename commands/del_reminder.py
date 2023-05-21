@@ -31,13 +31,20 @@ class DelReminder(Command):
 
     def set_name(self, user_id: int, text: str):
         text = text.strip()
-        self._add_name(user_id, text)
-        msg = self.bot.vk.send(user_id,
-                               'Введите время проведения деятельности в формате 00:00, можно ввести сразу несколько через '
-                               'запятую. Если же нужно удалить напоминания о деятельности полностью, введите "все"',
-                               keyboard=self.exit())
-        self.bot.db.add_msg_to_del(user_id, msg)
-        self.bot.db.upd_step(user_id, self.__class__.__name__, "time")
+        actions_list = [x[0] for x in self._get_actions_names()]
+        if text.lower() not in actions_list:
+            msg = self.bot.vk.send(user_id,
+                                   "Деятельность не найдена, попробуйте скопировать её название из списка выше (только название, без времени)",
+                                   keyboard=self.exit())
+            self.bot.db.add_msg_to_del(user_id, msg)
+        else:
+            self._add_name(user_id, text)
+            msg = self.bot.vk.send(user_id,
+                                   'Введите время проведения деятельности в формате 00:00, можно ввести сразу несколько через '
+                                   'запятую. Если же нужно удалить напоминания о деятельности полностью, введите "все"',
+                                   keyboard=self.exit())
+            self.bot.db.add_msg_to_del(user_id, msg)
+            self.bot.db.upd_step(user_id, self.__class__.__name__, "time")
 
 
     def del_all(self, user_id: int):
@@ -91,3 +98,10 @@ class DelReminder(Command):
         sql = 'DELETE FROM reminders WHERE vk_id = {} AND action_id = {}'.format(user_id, act_id)
         self.bot.db.add(sql)
 
+    def _get_actions_names(self):
+        sql = "SELECT DISTINCT name FROM actions"
+        result = self.bot.db.fetchall(sql)
+        if result:
+            return result
+        else:
+            return None
