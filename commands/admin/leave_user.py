@@ -4,7 +4,7 @@ import re
 
 class LeaveUser(Command):
     keys = ["оставить"]
-    access = Access.EDITOR
+    access = Access.ADMIN
 
     def process(self, message):
         user_id = message['from_id']
