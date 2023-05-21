@@ -32,6 +32,7 @@ class LeaveUser(Command):
         vk_ids = self._get_id(cw_id)
         for vk_id in vk_ids:
             self._add_perm_vk_id(vk_id, cw_id)
+            self._del_from_wait(vk_id)
         msg = self.bot.vk.send(user_id, "Внесено!")
         self.bot.event_manager.command_manager.exit(user_id)
 
@@ -43,4 +44,8 @@ class LeaveUser(Command):
 
     def _add_perm_vk_id(self, user_id, cw_id):
         sql = 'INSERT INTO with_perm (vk_id, cw_id) VALUES ({}, {})'.format(user_id, cw_id)
+        self.bot.db.add(sql)
+
+    def _del_from_wait(self, user_id: int):
+        sql = 'DELETE FROM wait_del WHERE vk_id = {}'.format(user_id)
         self.bot.db.add(sql)

@@ -244,11 +244,11 @@ class Updater:
         self.logger.info("Обновление завершено.")
 
     def to_wait_user(self, user_id):
+        wait_users = [x[0] for x in self._get_wait_users()]
         timestamp = datetime.now().timestamp()
-        for vk_id, _ in self._get_wait_users():
-            if user_id != vk_id:
-                self._add_to_wait(user_id, timestamp)
-                self.bot.vk.send(user_id, "Вы покинули клан и будете исключены из группы через 3 дня. Если вы считаете, что это "
+        if user_id not in wait_users:
+            self._add_to_wait(user_id, timestamp)
+            self.bot.vk.send(user_id, "Вы покинули клан и будете исключены из группы через 3 дня. Если вы считаете, что это "
                                        "ошибка, либо хотите остаться в группе, свяжитесь с представителями верха")
 
     def del_user(self, user_id):
