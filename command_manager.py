@@ -3,7 +3,7 @@ from enum import Enum
 import pyclbr
 import glob
 from importlib import import_module
-
+from sqlite3 import OperationalError
 import commands.admin.applicant
 from logger import Logger
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
@@ -133,7 +133,10 @@ class Commander:
         if self.bot.vk.get_post(user_id):
             current_command = self.bot.db.get_command(user_id)
             self.bot.db.add_command(user_id, "")
-            self.bot.db.del_command(user_id, current_command)
+            try:
+                self.bot.db.del_command(user_id, current_command)
+            except OperationalError:
+                pass
             self.menu(user_id)
         else:
             self.bot.db.del_command(user_id, 'Intro')
