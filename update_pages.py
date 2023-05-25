@@ -107,6 +107,7 @@ class Updater:
             time_after_3 = last_time + timedelta(days=3)
             if datetime.now() - timedelta(minutes=30) < time_after_3 < datetime.now() + timedelta(minutes=30):
                 self.del_user(user_id)
+                self.logger.info(f"Пользователь {user_id} удален, т.к. прошло 3 дня")
         self.check_users()
 
     def check_users(self):
@@ -114,6 +115,7 @@ class Updater:
         for user_id, cw_id, _ in self.bot.db.get_users():
             if not self.bot.vk.get_post(user_id):
                 self.del_user(user_id)
+                self.logger.info(f"Пользователь {user_id} убран из списка, т.к. не состоит в группе")
                 continue
             html = self.bot.cw.get(f'https://catwar.su/cat{cw_id}').text
             soup = BeautifulSoup(html, 'html.parser')
@@ -130,6 +132,7 @@ class Updater:
                         name = ""
                 else:
                     self.to_wait_user(user_id)
+                    self.logger.info(f"Пользователь {user_id} ожидает удаления")
                     continue
             vk_name = self.bot.vk.admin.users.get(user_ids=user_id, fields='first_name, last_name')[0]
             vk_name = vk_name['first_name'] + ' ' + vk_name['last_name']

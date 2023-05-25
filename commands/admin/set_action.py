@@ -76,6 +76,7 @@ class SetAction(Command):
                     self._set_action(name, time)
                 else:
                     msg = self.bot.vk.send(user_id, f"{name} {time} уже существует")
+        self.bot.logger.info(f"Пользователь {user_id} добавил деятельность {name}")
         msg = self.bot.vk.send(user_id, "Внесено!")
         self.bot.event_manager.command_manager.exit(user_id)
 

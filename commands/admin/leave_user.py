@@ -33,6 +33,7 @@ class LeaveUser(Command):
         for vk_id in vk_ids:
             self._add_perm_vk_id(vk_id, cw_id)
             self._del_from_wait(vk_id)
+            self.bot.logger.info(f"Игрок {vk_id} ({cw_id}) был оставлен в группе пользователем {user_id}")
         msg = self.bot.vk.send(user_id, "Внесено!")
         self.bot.event_manager.command_manager.exit(user_id)
 

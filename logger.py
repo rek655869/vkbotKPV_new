@@ -6,7 +6,7 @@ loggers_list = dict()
 class Logger:
     level = logging.INFO
     filename = 'py_log.log'
-    filemode = 'w'
+    filemode = 'a'
     log_format = '%(asctime)s - [%(levelname)s] -  %(name)s - (%(filename)s).%(funcName)s(%(lineno)d) - %(message)s'
 
     @classmethod

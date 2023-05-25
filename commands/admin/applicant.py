@@ -5,6 +5,7 @@ def accept(bot, payload, editor_id, event_id):
     bot.vk.admin.groups.approveRequest(group_id=bot.vk.group_id, user_id=user_id)
     add_info(bot, user_id)
     del_info(bot, user_id)
+    bot.logger.info(f"Игрок {user_id} был принят редактором {editor_id}")
     bot.vk.show_snackbar(event_id, editor_id, f"{payload[2]} принят(а)")
     bot.vk.send(user_id, 'Заявка успешно принята! Не забудь ознакомиться с правилами:\n'
                          '>> https://vk.com/page-165101106_55801147 <<\n\nНапиши любое сообщение, '
@@ -17,6 +18,7 @@ def reject(bot, payload, editor_id, event_id):
     user_id = payload[1]
     bot.vk.admin.groups.removeUser(group_id=bot.vk.group_id, user_id=user_id)
     del_info(bot, user_id)
+    bot.logger.info(f"Игрок {user_id} был отклонён редактором {editor_id}")
     bot.vk.show_snackbar(event_id, editor_id, f"{payload[2]} отклонен(а)")
     bot.vk.send(user_id, 'К сожалению, заявка была отклонена. Проверь, выполнены ли требования, правильные '
                          'ли даны ответы выше. Если ты допустил(а) ошибку, напиши "начать" и ответь на '

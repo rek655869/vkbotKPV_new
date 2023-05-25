@@ -55,6 +55,7 @@ class DelAction(Command):
     def del_all(self, user_id: int):
         name = self._get_name(user_id)
         self._del_action(name)
+        self.bot.logger.info(f"Пользователь {user_id} удалил деятельность {name}")
         msg = self.bot.vk.send(user_id, "Удалено!")
         self.bot.event_manager.command_manager.exit(user_id)
 
@@ -70,6 +71,7 @@ class DelAction(Command):
                 self.bot.db.add_msg_to_del(user_id, msg)
                 continue
             self._del_time(name, time)
+        self.bot.logger.info(f"Пользователь {user_id} удалил некоторое время в деятельности {name}")
         msg = self.bot.vk.send(user_id, "Удалено!")
         self.bot.event_manager.command_manager.exit(user_id)
 
