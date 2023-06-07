@@ -244,6 +244,7 @@ class Updater:
                                  f"page-{self.bot.vk.group_id}_{info['page_ids'][0]}]]</center>"
 
             self.bot.vk.save_page(html, info['page_ids'][0])
+            time.sleep(5)
         self.logger.info("Обновление завершено.")
 
     def to_wait_user(self, user_id):
