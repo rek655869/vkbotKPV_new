@@ -92,14 +92,18 @@ class Commander:
         user_id = event['user_id']
         self.del_last_messages(user_id)
 
-        if payload[0] == 'accept':
-            commands.admin.applicant.accept(self.bot, payload, user_id, event['event_id'])
-        elif payload[0] == 'reject':
-            commands.admin.applicant.reject(self.bot, payload, user_id, event['event_id'])
-        else:
-            self.bot.vk.event_answer(event['event_id'], user_id)
-            message = {'from_id': user_id, 'text': payload[0]}
-            self.handler(message)
+        try:
+            if payload[0] == 'accept':
+                commands.admin.applicant.accept(self.bot, payload, user_id, event['event_id'])
+            elif payload[0] == 'reject':
+                commands.admin.applicant.reject(self.bot, payload, user_id, event['event_id'])
+            else:
+                self.bot.vk.event_answer(event['event_id'], user_id)
+                message = {'from_id': user_id, 'text': payload[0]}
+                self.handler(message)
+        except KeyError as e:
+            print(payload)
+            raise e
 
     def menu(self, user_id: int):
         post = self.bot.vk.get_post(user_id)
