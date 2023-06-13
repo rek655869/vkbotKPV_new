@@ -15,7 +15,7 @@ class Bot:
         self.logger = Logger.get(__name__)
         self.logger.info("Запуск...")
 
-        self.cw = get_cookies()
+        self.cw = get_cookies(self.logger)
         self.vk = VkApiManager(self)
         self.db = DBManager(self.config.DATABASE.name)
         self.event_manager = EventManager(self)
