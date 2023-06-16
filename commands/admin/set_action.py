@@ -32,7 +32,7 @@ class SetAction(Command):
         self.bot.db.add_command(user_id, self.__class__.__name__)
 
     def set_name(self, user_id: int, text: str):
-        text = text.strip()
+        text = text.strip().lower()
         self._add_name(user_id, text)
         msg = self.bot.vk.send(user_id,
                                "Введите время проведения деятельности в формате 00:00, можно ввести сразу несколько через запятую",

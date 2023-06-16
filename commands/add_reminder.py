@@ -45,9 +45,9 @@ class AddReminder(Command):
 
 
     def set_name(self, user_id: int, text: str):
-        text = text.strip()
-        actions_list = [x[0].lower() for x in self._get_actions_names()]
-        if text.lower() not in actions_list:
+        text = text.strip().lower()
+        actions_list = [x[0] for x in self._get_actions_names()]
+        if text not in actions_list:
             msg = self.bot.vk.send(user_id, "Деятельность не найдена, попробуйте скопировать её название из списка выше (только название, без времени)",
                                    keyboard=self.exit())
             self.bot.db.add_msg_to_del(user_id, msg)
