@@ -3,6 +3,7 @@ import threading
 import schedule
 from datetime import datetime, timedelta
 import time
+from errors_handler import ErrorHandler
 
 
 class Deliveryman:
@@ -11,7 +12,7 @@ class Deliveryman:
         self.logger = Logger.get(__name__)
         threading.Thread(target=self._start, name='mailing', daemon=False).start()
 
-
+    @ErrorHandler.main_errors_handler
     def _start(self):
         self.logger.info("Deliveryman запущен")
         schedule.every().minute.at(":00").do(self.check_reminders)

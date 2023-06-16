@@ -4,6 +4,7 @@ import schedule
 import time
 from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
+from errors_handler import ErrorHandler
 
 
 def get_key(d, value):
@@ -92,6 +93,8 @@ class Updater:
         self.lisa = '<img border="0" src="http://images.vfl.ru/ii/1604159092/448b5ed6/32141465.png"/>'
         self.laska = '<img border="0" src="http://images.vfl.ru/ii/1604159092/ed9c5fbd/32141464.png"/>'
 
+
+    @ErrorHandler.main_errors_handler
     def _start(self):
         self.logger.info("Updater запущен")
         schedule.every().day.at("03:00").do(self.check_to_del)

@@ -7,6 +7,7 @@ from sqlite3 import OperationalError
 import commands.admin.applicant
 from logger import Logger
 from vk_api.keyboard import VkKeyboard, VkKeyboardColor
+from errors_handler import ErrorHandler
 
 
 class Access(Enum):
@@ -63,29 +64,33 @@ class Commander:
     def handler(self, message):
         text = message['text'].lower()
         user_id = message['from_id']
-        post = self.bot.vk.get_post(user_id)
 
-        if text == 'exit' or text == 'выйти':
-            return self.exit(user_id)
+        try:
+            post = self.bot.vk.get_post(user_id)
 
-        if not post:
-            for command in self.commands:
-                if command.__class__.__name__ == 'Intro':
-                    return command.process(message)
+            if text == 'exit' or text == 'выйти':
+                return self.exit(user_id)
 
-        self.del_last_messages(user_id)
+            if not post:
+                for command in self.commands:
+                    if command.__class__.__name__ == 'Intro':
+                        return command.process(message)
 
-        current_command = self.bot.db.get_command(user_id)
-        if current_command:
-            for command in self.commands:
-                if current_command == command.__class__.__name__:
-                    return command.process(message)
-        else:
-            for command in self.commands:
-                if text in command.keys and post in command.access.value:
-                    return command.process(message)
+            self.del_last_messages(user_id)
 
-        self.menu(user_id)
+            current_command = self.bot.db.get_command(user_id)
+            if current_command:
+                for command in self.commands:
+                    if current_command == command.__class__.__name__:
+                        return command.process(message)
+            else:
+                for command in self.commands:
+                    if text in command.keys and post in command.access.value:
+                        return command.process(message)
+
+            self.menu(user_id)
+        except Exception:
+            ErrorHandler.errors_handler(user_id)
 
     def event_handler(self, event):
         payload = event['payload']

@@ -2,6 +2,7 @@ import threading
 from vk_api.bot_longpoll import VkBotEventType
 from command_manager import Commander
 from logger import Logger
+from errors_handler import ErrorHandler
 
 
 class EventManager:
@@ -12,6 +13,7 @@ class EventManager:
         self.command_manager = Commander(self.bot)
         threading.Thread(target=self._start, name='event-listening', daemon=True).start()
 
+    @ErrorHandler.main_errors_handler
     def _start(self):
         self.logger.info("EventManager запущен")
         while True:

@@ -38,9 +38,7 @@ class VkApiManager:
         self.longpoll = SecureVkLongPoll(self._vk_session, self.group_id)
 
         self.logger.info("VkApiManager запущен")
-        # LongPollServer = vk.groups.getLongPollServer(group_id=group_id)
-        # key, server, ts = LongPollServer['key'], LongPollServer['server'], LongPollServer['ts']
-        # config = {'key': key, 'server': server, 'ts': ts}
+
 
     def _check_access_token(self):
         """Проверка работоспособности токена администратора"""
